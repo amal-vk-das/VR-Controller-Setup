@@ -80,19 +80,14 @@ controller2.addEventListener('squeezeend', () => {
 function handleController(controller) {
     if (controller.inputSource && controller.inputSource.gamepad) {
         const thumbstick = controller.inputSource.gamepad.axes;
-        const movementSpeed = 0.05;
+        const sensitivity = 0.5; // Sensitivity threshold for joystick movement
+        const movementSpeed = 0.05; // Movement speed multiplier
 
-        if (thumbstick[2] < -0.5) {
-            camera.position.z -= movementSpeed; // Move forward
+        if (Math.abs(thumbstick[2]) > sensitivity) {
+            camera.position.z -= movementSpeed * thumbstick[2]; // Forward/backward
         }
-        if (thumbstick[2] > 0.5) {
-            camera.position.z += movementSpeed; // Move backward
-        }
-        if (thumbstick[0] < -0.5) {
-            camera.position.x -= movementSpeed; // Move left
-        }
-        if (thumbstick[0] > 0.5) {
-            camera.position.x += movementSpeed; // Move right
+        if (Math.abs(thumbstick[0]) > sensitivity) {
+            camera.position.x += movementSpeed * thumbstick[0]; // Left/right
         }
     }
 }
